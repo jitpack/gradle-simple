@@ -3,6 +3,7 @@ apply plugin: 'maven'
 
 group = 'io.jitpack'
 version = '0.1'
+archivesBaseName = 'example-gradle-project'
 
 repositories {
   mavenCentral()
