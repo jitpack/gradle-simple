@@ -1,9 +1,11 @@
 apply plugin: 'java'
 apply plugin: 'maven'
 
-group = 'io.jitpack'
+group = 'com.github.jitpack'
 version = '0.1'
-archivesBaseName = 'example-gradle-project'
+
+sourceCompatibility = 1.8 // java 8
+targetCompatibility = 1.8
 
 repositories {
   mavenCentral()
