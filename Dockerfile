@@ -1,9 +1,9 @@
 FROM gradle
 
-RUN gradle build
+#RUN gradle build
 
 WORKDIR /src
 #ENV DEBUG=*
 
 
-#CMD ["npm", "start"]
+CMD ["gradle", "build"]
