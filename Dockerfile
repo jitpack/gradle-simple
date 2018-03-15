@@ -1,8 +1,9 @@
 FROM gradle
 
-RUN gradle build
+RUN ./gradlew build
+#RUN gradle build
 
-WORKDIR /src
+#WORKDIR /src
 #ENV DEBUG=*
 
 
