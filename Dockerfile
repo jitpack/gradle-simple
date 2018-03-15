@@ -3,7 +3,7 @@ FROM gradle
 RUN gradlew build
 #RUN gradle build
 
-#WORKDIR /src
+WORKDIR /src
 #ENV DEBUG=*
 
 
