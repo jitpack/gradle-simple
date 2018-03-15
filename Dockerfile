@@ -1,8 +1,7 @@
 FROM gradle
-
+ARG GRADLE_USER_HOME
 #RUN gradlew build
 RUN gradle build
-ENV GRADLE_USER_HOME=/codefresh/volume/.gradle
 
 #WORKDIR /src
 #ENV DEBUG=*
