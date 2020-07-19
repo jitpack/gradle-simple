@@ -11,7 +11,7 @@ repositories {
 }
 
 dependencies {
-  implementation 'com.google.guava:guava:18.0'
+  implementation 'com.google.guava:guava:29.0-jre'
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {
