@@ -29,7 +29,6 @@ jobs:
     - name: Build with Gradle
       run: ./gradlew build
       
-
    name: Build & push Docker image
    uses: action/docker-build-push@v5
    with:
