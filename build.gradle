@@ -1,5 +1,11 @@
-apply plugin: 'java'
-apply plugin: 'maven'
+plugins {
+  id "java"
+  id "maven"
+  id "org.sonarqube" version "3.3"
+}
+// old plugin method
+// apply plugin: 'java'
+// apply plugin: 'maven'
 
 group = 'com.github.jitpack'
 
