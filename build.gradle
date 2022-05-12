@@ -1,5 +1,22 @@
+buildscript {
+  repositories {
+    mavenCentral()
+    {
+      dependencies {
+        classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4+"
+      }
+    }
+  }
+}
+
+plugins {
+  id("groovy")
+  id 'maven-publish'
+}
+
 apply plugin: 'java'
 apply plugin: 'maven-publish'
+apply plugin: 'com.jfrog.artifactory'
 
 group = 'com.github.jitpack'
 version = '2.0'
@@ -9,6 +26,14 @@ targetCompatibility = 1.8
 
 repositories {
   mavenCentral()
+  mavenLocal()
+  maven {
+    url "${artifactory_contextUrl}"
+    credentials {
+      username = "${artifactory_user}"
+      password = "${artifactory_password}"
+    }
+  }
 }
 
 dependencies {
@@ -31,4 +56,38 @@ publishing {
 wrapper {
     gradleVersion = "7.3.3"
     distributionType = Wrapper.DistributionType.ALL
+}
+
+artifactory {
+  contextUrl = "${artifactory_contextUrl}"
+  publish {
+    repository {
+      repoKey = "${artifactory_repoKey}"
+      username = "${artifactory_user}"
+      password = "${artifactory_password}"
+      maven = true
+    }
+    defaults {
+      publications ('mavenJava')
+    }
+  }
+  resolve { 
+    repository {
+      repoKey = "${artifactory_repoKey}"
+      username = "${artifactory_user}"
+      password = "${artifactory_password}"
+      maven = true
+    }
+  }
+}
+
+artifactoryPublish {
+  skip = false
+  contextUrl = "${artifactory_contextUrl}"
+  properties = ['qa.level': 'basic', 'q.os': 'win32, deb, osx']
+  clientConfig.publisher.repoKey = "${artifactory_repoKey}"
+  clientConfig.publisher.username = "${artifactory_user}"
+  clientConfig.publisher.password = "${artifactory_password}"
+
+  clientConfig.publisher.minChecksumDeploySizeKb = 10
 }
