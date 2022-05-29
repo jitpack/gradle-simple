@@ -1,5 +1,6 @@
 # gradle-simple
 
+Testing updates 
 [![](https://jitpack.io/v/jitpack/gradle-simple.svg?label=Release)](https://jitpack.io/#jitpack/gradle-simple)
 
 Example Gradle project producing a single jar. Uses the `maven` plugin to publish the jar to the local repository.
