@@ -1,34 +1,34 @@
-apply plugin: 'java'
-apply plugin: 'maven-publish'
+plugins {
+    id 'org.springframework.boot' version '2.7.5'
+    id 'io.spring.dependency-management' version '1.1.0'
+    id 'java'
+}
 
-group = 'com.github.jitpack'
-version = '2.0'
-
-sourceCompatibility = 1.8 // java 8
+group = 'org.bahmni.sms'
+version = '0.0.1'
+sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
-repositories {
-  mavenCentral()
-}
-
-dependencies {
-  implementation 'com.google.guava:guava:29.0-jre'
-}
-
-java {
-	withSourcesJar()
-	withJavadocJar()
-}
-
-publishing {
-    publications {
-        maven(MavenPublication) {
-		from components.java
-        }
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
     }
 }
 
-wrapper {
-    gradleVersion = "7.3.3"
-    distributionType = Wrapper.DistributionType.ALL
+repositories {
+    mavenCentral()
+}
+
+task bootRunLocal {
+    bootRun.configure {
+        systemProperty "spring.profiles.active", 'local'
+    }
+}
+
+bootRunLocal.finalizedBy bootRun
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+    implementation 'com.google.guava:guava:29.0-jre'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
 }
