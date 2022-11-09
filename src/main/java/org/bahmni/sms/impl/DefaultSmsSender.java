@@ -1,6 +1,7 @@
 package org.bahmni.sms.impl;
 
 import org.bahmni.sms.SMSSender;
+import org.springframework.stereotype.Repository;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -8,6 +9,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Base64;
 
+@Repository
 public class DefaultSmsSender implements SMSSender {
 
     public static final String ACCOUNT_SID = "AC176c1306e708bb48516e5a71f8a4a3eb";

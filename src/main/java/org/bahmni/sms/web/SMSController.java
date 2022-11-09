@@ -2,13 +2,12 @@ package org.bahmni.sms.web;
 
 import org.bahmni.sms.SMSSender;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping(value = "/rest/v1/send")
+@RequestMapping(value = "/sms")
 public class SMSController {
     private final SMSSender smsSender;
 
@@ -18,10 +17,9 @@ public class SMSController {
     }
 
 
-    @RequestMapping(method = RequestMethod.POST, value = "/sms")
+    @RequestMapping(method = RequestMethod.POST, value = "/send")
     public @ResponseBody
-    ResponseEntity.BodyBuilder sendSMS(@Valid @RequestParam String phoneNumber, String message)  {
+    void sendSMS(@Valid @RequestParam String phoneNumber, String message)  {
         smsSender.send("+15135400794", phoneNumber, message);
-        return ResponseEntity.ok();
     }
 }
