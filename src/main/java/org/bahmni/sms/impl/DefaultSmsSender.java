@@ -10,22 +10,24 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
+import org.bahmni.sms.SMSProperties;
 import org.bahmni.sms.SMSSender;
 import org.bahmni.sms.model.Message;
 import org.bahmni.sms.model.SMSRequest;
 import org.json.JSONObject;
 import org.springframework.stereotype.Repository;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 @Repository
 public class DefaultSmsSender implements SMSSender {
 
-    public static final String CLIENT_ID = "MOK3WVSPLJIC128rjvvOAQ8Six0zZRgPaUrnRLc0";
-    public static final String CLIENT_SECRET = "VAF63B9r9cjn3CQI7S3j0NBrTcB21WEWFgywa2t24BjAVntLmXjanaBr1Pt450v5Sma4lGpjMWZ1wcBQVIvP8BBwt4gRRgUBAmb1XDfFDl0PagL9Ak6mdEeGdPaTRLt1";
-    public static final String SENDER = "Bahmni";
+    private final SMSProperties smsProperties;
+
+    public DefaultSmsSender(SMSProperties smsProperties) {
+        this.smsProperties = smsProperties;
+    }
 
     private String getAuthorization() {
         try {
@@ -34,8 +36,8 @@ public class DefaultSmsSender implements SMSSender {
         request.addHeader("mime-type", "multipart/form-data");
         List<NameValuePair> urlParameters = new ArrayList<>();
 
-        urlParameters.add(new BasicNameValuePair("client_id", CLIENT_ID));
-        urlParameters.add(new BasicNameValuePair("client_secret", CLIENT_SECRET));
+        urlParameters.add(new BasicNameValuePair("client_id", smsProperties.getClientId()));
+        urlParameters.add(new BasicNameValuePair("client_secret",smsProperties.getClientSecret()));
         request.setEntity(new UrlEncodedFormEntity(urlParameters));
 
         HttpResponse response = httpClient.execute(request);
@@ -59,7 +61,7 @@ public class DefaultSmsSender implements SMSSender {
             message.setRecipients(new ArrayList<String>() {{
                 add(phoneNumber);
             }});
-            message.setOriginator(SENDER);
+            message.setOriginator(smsProperties.getOriginator());
             message.setContent(messageText);
             SMSRequest smsRequest = new SMSRequest();
             smsRequest.setMessages(new ArrayList<Message>() {{

@@ -33,4 +33,6 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.apache.httpcomponents:httpclient:4.5.12'
     implementation 'org.json:json:20211205'
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
 }
