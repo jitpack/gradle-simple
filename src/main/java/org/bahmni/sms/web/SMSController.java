@@ -1,25 +1,21 @@
 package org.bahmni.sms.web;
 
+import lombok.AllArgsConstructor;
 import org.bahmni.sms.SMSSender;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
+import java.net.URLDecoder;
 
 @RestController
 @RequestMapping(value = "/sms")
+@AllArgsConstructor
 public class SMSController {
     private final SMSSender smsSender;
 
-    @Autowired
-    public SMSController(SMSSender smsSender){
-        this.smsSender = smsSender;
-    }
-
-
     @RequestMapping(method = RequestMethod.POST, value = "/send")
     public @ResponseBody
-    void sendSMS(@Valid @RequestParam String phoneNumber, String message)  {
-        smsSender.send(phoneNumber, message);
+    String sendSMS(@RequestParam String phoneNumber,@RequestParam String message)  {
+        System.out.println("PHONE" + phoneNumber);
+        return smsSender.send(phoneNumber, message);
     }
 }

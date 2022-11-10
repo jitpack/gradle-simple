@@ -20,6 +20,9 @@ import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.bahmni.sms.Constants.AUTHORIZATION;
+import static org.bahmni.sms.Constants.SEND;
+
 @Repository
 public class DefaultSmsSender implements SMSSender {
 
@@ -32,7 +35,7 @@ public class DefaultSmsSender implements SMSSender {
     private String getAuthorization() {
         try {
         HttpClient httpClient = HttpClientBuilder.create().build();
-        HttpPost request = new HttpPost("https://api.d7networks.com/auth/v1/login/application");
+        HttpPost request = new HttpPost(AUTHORIZATION);
         request.addHeader("mime-type", "multipart/form-data");
         List<NameValuePair> urlParameters = new ArrayList<>();
 
@@ -54,7 +57,7 @@ public class DefaultSmsSender implements SMSSender {
     public String send(String phoneNumber, String messageText) {
         try {
             HttpClient httpClient = HttpClientBuilder.create().build();
-            HttpPost request = new HttpPost("https://api.d7networks.com/messages/v1/send");
+            HttpPost request = new HttpPost(SEND);
             Message message = new Message();
             message.setChannel("sms");
             message.setMsg_type("text");
