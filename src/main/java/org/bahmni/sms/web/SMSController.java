@@ -20,6 +20,6 @@ public class SMSController {
     @RequestMapping(method = RequestMethod.POST, value = "/send")
     public @ResponseBody
     void sendSMS(@Valid @RequestParam String phoneNumber, String message)  {
-        smsSender.send("+15135400794", phoneNumber, message);
+        smsSender.send(phoneNumber, message);
     }
 }
