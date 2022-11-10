@@ -1,0 +1,12 @@
+version: '3'
+services:
+  sms:
+    build:
+     context: .
+     dockerfile: package/docker/Dockerfile
+    environment:
+      ORIGINATOR: ${ORIGINATOR}
+      CLIENT_ID: ${CLIENT_ID}
+      CLIENT_SECRET: ${CLIENT_SECRET}
+    ports:
+      - "8001:8080"
