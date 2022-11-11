@@ -1,20 +1,42 @@
-# gradle-simple
+This repo features sending SMS and used D7 networks as the default SMS sender. Anyone can override the functionality with their own implementation to send sms.
 
-[![](https://jitpack.io/v/jitpack/gradle-simple.svg?label=Release)](https://jitpack.io/#jitpack/gradle-simple) [![](https://jitci.com/gh/jitpack/gradle-simple/svg)](https://jitci.com/gh/jitpack/gradle-simple)
+## Running From The Docker Image
 
-Example Gradle project producing a single jar. Uses the `maven` plugin to publish the jar to the local repository.
+Create docker image
 
-[https://jitpack.io/#jitpack/gradle-simple](https://jitpack.io/#jitpack/gradle-simple)
+```
+docker build -t sms -f package/docker/Dockerfile . 
+```
 
-To install the library add: 
- 
-   ```gradle
-   repositories { 
-        jcenter()
-        maven { url "https://jitpack.io" }
-   }
-   dependencies {
-         implementation 'com.github.jitpack:gradle-simple:1.1'
-   }
-   ```  
+To run the image
 
+```
+docker run -d -p 8001:8080 sms
+```
+
+## Running From Source
+
+## Test / Build
+
+To run the tests / build <br />
+```
+./gradlew clean build
+./gradlew clean test
+```
+
+## Sample json format for D7 message content <br />
+```
+{
+    "messages": [
+        {
+            "channel": "sms",
+            "originator": "SMS",
+            "recipients": [
+                "+919876543210"
+            ],
+            "content": "Greetings from D7 SMS",
+            "msg_type": "text"
+        }
+    ]
+}
+```
