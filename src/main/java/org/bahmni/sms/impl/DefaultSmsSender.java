@@ -32,27 +32,6 @@ public class DefaultSmsSender implements SMSSender {
         this.smsProperties = smsProperties;
     }
 
-    private String getAuthorization() {
-        try {
-        HttpClient httpClient = HttpClientBuilder.create().build();
-        HttpPost request = new HttpPost(AUTHORIZATION);
-        request.addHeader("mime-type", "multipart/form-data");
-        List<NameValuePair> urlParameters = new ArrayList<>();
-
-        urlParameters.add(new BasicNameValuePair("client_id", smsProperties.getClientId()));
-        urlParameters.add(new BasicNameValuePair("client_secret",smsProperties.getClientSecret()));
-        request.setEntity(new UrlEncodedFormEntity(urlParameters));
-
-        HttpResponse response = httpClient.execute(request);
-        JSONObject jsonObject = new JSONObject(EntityUtils.toString(response.getEntity()));
-        return jsonObject.get("token_type") + " " + jsonObject.get("access_token");
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-            return "Error " + e;
-        }
-    }
-
     @Override
     public String send(String phoneNumber, String messageText) {
         try {
@@ -74,7 +53,7 @@ public class DefaultSmsSender implements SMSSender {
             String jsonObject = Obj.writeValueAsString(smsRequest);
             StringEntity params = new StringEntity(jsonObject);
             request.addHeader("content-type", "application/json");
-            request.addHeader("Authorization", getAuthorization());
+            request.addHeader("Authorization", "Bearer " + smsProperties.getToken());
             request.setEntity(params);
             HttpResponse response = httpClient.execute(request);
             return response.getStatusLine().toString();

@@ -6,7 +6,6 @@ services:
      dockerfile: package/docker/Dockerfile
     environment:
       ORIGINATOR: ${ORIGINATOR}
-      CLIENT_ID: ${CLIENT_ID}
-      CLIENT_SECRET: ${CLIENT_SECRET}
+      TOKEN: ${TOKEN}
     ports:
       - "8001:8080"

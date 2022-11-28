@@ -24,6 +24,13 @@ To run the tests / build <br />
 ./gradlew clean test
 ```
 
+## Rest Api exposed to send sms
+
+```
+http://localhost:8001/sms/send?phoneNumber=&message=
+```
+Note: currently this reference implementation does not have any authentication check, it's meant to be used internally and not to be exposed to public at all
+
 ## Sample json format for D7 message content <br />
 ```
 {

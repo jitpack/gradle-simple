@@ -16,6 +16,5 @@ import org.springframework.context.annotation.Configuration;
 @Builder
 public class SMSProperties {
     private String originator;
-    private String clientId;
-    private String clientSecret;
+    private String token;
 }
