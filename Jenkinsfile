@@ -6,11 +6,15 @@ pipeline {
     }
 
     options {
-    timeout(time: 10, unit: 'MINUTES')
+        timeout(time: 10, unit: 'MINUTES')
         timestamps()
     }
 
     triggers { pollSCM('*/1 * * * *') }
+
+    environment {
+        DOCKER_IMAGE = "venu/helloworld-gradle"
+    }
 
     stages {
         stage('Checkout') {
@@ -33,5 +37,37 @@ pipeline {
                 }
             }
         }
+        stage('DockerBuild'){
+            steps {
+                sh "docker build -t ${env.DOCKER_IMAGE} ."
+            }
+        }
+        stage('DockerScan'){
+            steps {
+                echo "docker scan ${env.DOCKER_IMAGE}"
+            }
+        }
+        stage('DockePush'){
+             steps {
+                echo "docker  push ${env.DOCKER_IMAGE}"
+             }
+        }
+        stage('Deploy to Dev'){
+             steps {
+                echo 'Dev Deployment Completed'
+             }
+        }
+        stage('Deploy to QA'){
+             steps {
+                echo 'QA Deployment Completed'
+             }
+        }
+        stage('Deploy to Prod'){
+            steps {
+                input('Do you wants to proceed with prod deployment')
+                echo 'Prod Deployment Completed'
+            }
+        }
     }
+    
 }
