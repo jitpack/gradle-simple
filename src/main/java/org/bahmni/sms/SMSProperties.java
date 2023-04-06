@@ -1,10 +1,6 @@
 package org.bahmni.sms;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
@@ -17,4 +13,11 @@ import org.springframework.context.annotation.Configuration;
 public class SMSProperties {
     private String originator;
     private String token;
+    private String openmrsHost;
+    private String openmrsPort;
+    private String openmrsRootURL;
+
+    public String getOpenmrsRootURL() {
+        return "http://" + openmrsHost + ":" + openmrsPort + "/openmrs/ws/rest/v1";
+    }
 }

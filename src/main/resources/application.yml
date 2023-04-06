@@ -1,3 +1,5 @@
 sms:
   originator: Bahmni
   token: <TOKEN>
+  openmrsHost: <OPENMRS_HOST>
+  openmrsPort: <OPENMRS_PORT>

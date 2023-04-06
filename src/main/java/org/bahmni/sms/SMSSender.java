@@ -1,5 +1,7 @@
 package org.bahmni.sms;
 
+import org.springframework.http.ResponseEntity;
+
 public interface SMSSender {
-    String send(String phoneNumber, String message);
+    ResponseEntity send(String phoneNumber, String message);
 }
