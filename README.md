@@ -1,19 +1,5 @@
 This repo features sending SMS and used D7 networks as the default SMS sender. Anyone can override the functionality with their own implementation to send sms.
 
-## Running From The Docker Image
-
-Create docker image
-
-```
-docker build -t sms -f package/docker/Dockerfile . 
-```
-
-To run the image
-
-```
-docker run -d -p 8001:8080 sms
-```
-
 ## Running From Source
 
 ## Test / Build
@@ -27,9 +13,23 @@ To run the tests / build <br />
 ## Rest Api exposed to send sms
 
 ```
-http://localhost:8001/sms/send?phoneNumber=&message=
+http://sms-service:8080/notification/sms
 ```
-Note: currently this reference implementation does not have any authentication check, it's meant to be used internally and not to be exposed to public at all
+Note: This API accepts a json body with phone number and message content. Currently this reference implementation does not have any authentication check, it's meant to be used internally and not to be exposed to public at all
+
+## Running From The Docker Image
+
+Create docker image
+
+```
+docker build -t sms -f package/docker/Dockerfile . 
+```
+
+To run the image
+
+```
+docker run -d -p 8080:8080 sms
+```
 
 ## Sample json format for D7 message content <br />
 ```

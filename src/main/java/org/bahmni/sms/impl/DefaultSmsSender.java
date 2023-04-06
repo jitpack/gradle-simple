@@ -2,25 +2,23 @@ package org.bahmni.sms.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
+import org.apache.http.HttpResponseFactory;
+import org.apache.http.HttpStatus;
+import org.apache.http.HttpVersion;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.DefaultHttpResponseFactory;
 import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.util.EntityUtils;
+import org.apache.http.message.BasicStatusLine;
 import org.bahmni.sms.SMSProperties;
 import org.bahmni.sms.SMSSender;
 import org.bahmni.sms.model.Message;
 import org.bahmni.sms.model.SMSRequest;
-import org.json.JSONObject;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import static org.bahmni.sms.Constants.AUTHORIZATION;
 import static org.bahmni.sms.Constants.SEND;
 
 @Repository
@@ -34,6 +32,8 @@ public class DefaultSmsSender implements SMSSender {
 
     @Override
     public String send(String phoneNumber, String messageText) {
+        HttpResponseFactory factory = new DefaultHttpResponseFactory();
+        HttpResponse response = null;
         try {
             HttpClient httpClient = HttpClientBuilder.create().build();
             HttpPost request = new HttpPost(SEND);
@@ -55,10 +55,11 @@ public class DefaultSmsSender implements SMSSender {
             request.addHeader("content-type", "application/json");
             request.addHeader("Authorization", "Bearer " + smsProperties.getToken());
             request.setEntity(params);
-            HttpResponse response = httpClient.execute(request);
-            return response.getStatusLine().toString();
+            response = httpClient.execute(request);
         } catch (Exception e) {
-            return "Error " + e;
+            System.out.println("Error in sending sms" + e);
+            response = factory.newHttpResponse(new BasicStatusLine(HttpVersion.HTTP_1_1, HttpStatus.SC_INTERNAL_SERVER_ERROR, "Error in sending sms"), null);
         }
+        return response.getStatusLine().toString();
     }
 }

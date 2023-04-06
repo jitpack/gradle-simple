@@ -7,5 +7,3 @@ services:
     environment:
       ORIGINATOR: ${ORIGINATOR}
       TOKEN: ${TOKEN}
-    ports:
-      - "8001:8080"
