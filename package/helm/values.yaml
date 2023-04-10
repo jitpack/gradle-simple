@@ -1,0 +1,35 @@
+global:
+  nodeSelector: {}
+  affinity: {}
+  tolerations: {}
+
+replicaCount: 1
+
+metadata:
+  labels:
+    environment: dev
+
+image:
+  repository: bahmni
+  name: sms-service
+  tag: latest
+
+service:
+  type: ClusterIP
+  port: 8080
+
+secrets:
+  TOKEN: ''
+
+config:
+  ORIGINATOR: 'Bahmni'
+  OPENMRS_HOST: 'openmrs'
+  OPENMRS_PORT: '8080'
+
+autoscaling:
+  enabled: false
+
+nodeSelector: {}
+affinity: {}
+tolerations: {}
+

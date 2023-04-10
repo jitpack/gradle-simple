@@ -1,0 +1,5 @@
+apiVersion: v2
+name: sms-service
+description: Reference SMS Service Implementation
+type: application
+version: 1.0.0

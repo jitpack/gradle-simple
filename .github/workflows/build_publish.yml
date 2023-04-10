@@ -11,6 +11,8 @@ jobs:
   docker-build-publish:
     name: Docker Build & Publish
     runs-on: ubuntu-latest
+    env:
+      HELM_CHART_PATH: package/helm/
     steps:
       - uses: actions/checkout@v3
       - name: Setup java
@@ -43,3 +45,38 @@ jobs:
           no-cache: true
           push: true
           tags: bahmni/sms-service:${{env.ARTIFACT_VERSION}},bahmni/sms-service:latest
+      - name: Helm - Update Version and Image Tag
+        run: |
+          yq --inplace '.image.tag = "${{ env.ARTIFACT_VERSION }}"' $HELM_CHART_PATH/values.yaml
+          yq --inplace '.version = "${{ env.ARTIFACT_VERSION }}"' $HELM_CHART_PATH/Chart.yaml
+
+      - name: Helm Lint
+        run: helm lint $HELM_CHART_PATH
+
+      - name: Helm Package
+        run: helm package $HELM_CHART_PATH
+
+      - name: Helm - Checkout Charts Repository
+        uses: actions/checkout@v2
+        with:
+          repository: Bahmni/helm-charts
+          ref: gh-pages
+          path: helm-charts
+          persist-credentials: false
+
+      - name: Helm - Copy chart
+        run: mkdir -p helm-charts/sms-service/ && cp sms-service-${{ env.ARTIFACT_VERSION }}.tgz helm-charts/sms-service/
+
+      - name: Helm - reIndex
+        working-directory: helm-charts/
+        run: helm repo index --merge index.yaml --url https://bahmni.github.io/helm-charts/  .
+
+      - name: Helm - Publish Chart
+        working-directory: helm-charts/
+        run: |
+          git config user.name ${{ secrets.BAHMNI_USERNAME}}
+          git config user.email ${{ secrets.BAHMNI_EMAIL}}
+          git add .
+          git commit -m "Release of sms-service-${{ env.ARTIFACT_VERSION }}"
+          git push 'https://${{ secrets.BAHMNI_USERNAME}}:${{ secrets.BAHMNI_PAT}}@github.com/bahmni/helm-charts.git' gh-pages
+

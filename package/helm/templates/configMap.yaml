@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Chart.Name }}-config
+data:
+  SMS_OPENMRS_HOST:  "{{ .Values.config.OPENMRS_HOST }}"
+  SMS_OPENMRS_PORT:  "{{ .Values.config.OPENMRS_PORT }}"
+  SMS_ORIGINATOR: "{{ .Values.config.ORIGINATOR}}"
