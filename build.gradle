@@ -32,3 +32,7 @@ wrapper {
     gradleVersion = "7.3.3"
     distributionType = Wrapper.DistributionType.ALL
 }
+
+plugins {
+  id "org.sonarqube" version "3.4.0.2513"
+}
