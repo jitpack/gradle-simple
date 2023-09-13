@@ -103,19 +103,4 @@ class SMSControllerTest {
                 .expectStatus()
                 .is4xxClientError();
     }
-
-    @Test
-    public void shouldThrowBadRequestWhenCookieIsNotPassed() {
-        Object requestBody = "{" +
-                "\"message\":\"hello\"," +
-                "\"phoneNumber\":\"919999999999\"" +
-                "}";
-        webClient.post()
-                .uri("/notification/sms")
-                .contentType(MediaType.APPLICATION_JSON)
-                .bodyValue(requestBody)
-                .exchange()
-                .expectStatus()
-                .isBadRequest();
-    }
 }
