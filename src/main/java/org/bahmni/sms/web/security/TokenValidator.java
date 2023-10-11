@@ -1,7 +1,6 @@
 package org.bahmni.sms.web.security;
 
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwt;
 import io.jsonwebtoken.Jwts;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +17,7 @@ import java.util.Base64;
 public class TokenValidator {
 
 
-    private static final String PUBLIC_KEY_FILE_PATH = "/../tmp/public_key.pem";
+    private static final String PUBLIC_KEY_FILE_PATH = "/../opt/public_key.pem";
 
 
     private static Key loadPublicKey() throws IOException, NoSuchAlgorithmException, InvalidKeySpecException {
