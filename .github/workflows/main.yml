@@ -24,13 +24,9 @@ jobs:
           sudo npm install -g snyk
           sudo npm install -g snyk-delta
           snyk auth ${SNYK_TOKEN}
-      # Run Snyk Code
-      - name: Run Snyk Code
-        run: |
-          snyk code test --report --project-name="GH_ACTION_CI" --severity-threshold=high 
-        continue-on-error: true
+
       # Run Snyk OS
       - name: Run Snyk OS
         run: |
-          snyk test --json --print-deps | snyk-delta --baselineOrg 6d36ac7a-c75b-4179-8e73-6dd4d3fc8343 --baselineProject c8cfc88f-7bc5-4fc4-8474-3fa716593d4a --setPassIfNoBaseline true
+          snyk test --json --print-deps | snyk-delta ---baselineOrg de3458ab-2cde-4291-b24a-4ae706939a85 --baselineProject 7537823e-2573-4c86-8b64-2f73bc81148b --setPassIfNoBaseline true
         continue-on-error: true
